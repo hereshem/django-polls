@@ -1,0 +1,17 @@
+list of questions
+jinga templating
+
+total number of questions {{count}}
+
+a is {{a}}
+
+<ul>
+    {% for item in data %}
+
+    <li>
+        {{ item.title }}
+    </li>
+
+    {% endfor %}
+
+</ul>
