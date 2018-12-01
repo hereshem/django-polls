@@ -1,17 +1,16 @@
-list of questions
-jinga templating
 
-total number of questions {{count}}
+{% extends "polls/base.html" %}
 
-a is {{a}}
+{% block title %}Welcome to Polls App{% endblock %}
 
-<ul>
+{%  block container %}
+
+    <h1>Total number of questions {{count}}</h1>
     {% for item in data %}
-
-    <li>
-        {{ item.title }}
-    </li>
-
+                            <article>
+                                <h2 class="article-title"><a href="/polls/{{ item.id }}" >{{ item.title }}</a></h2>
+                            </article>
     {% endfor %}
 
-</ul>
+
+{% endblock %}

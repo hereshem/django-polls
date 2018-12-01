@@ -9,6 +9,7 @@ class ChoiceInline(admin.TabularInline):
     extra = 1
 
 
+
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ["title", "created"]
     list_filter = ["title", "created"]

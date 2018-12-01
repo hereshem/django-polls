@@ -1,1 +1,23 @@
-detail page
+
+<h1 align="center">{{ question.title }}</h1>
+
+<form method="post" action="/polls/{{ question.id }}/vote/">
+{% csrf_token %}
+<table align="center">
+<tr>
+    <th>Title</th><th>Vote</th><th>Action</th>
+</tr>
+    {% for choice in question.choice_set.all %}
+        <tr>
+            <td>{{ choice.title }}</td>
+            <td align="center">{{ choice.votes }}</td>
+            <td><input type="radio" name="choice" value="{{ choice.id }}"></td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="3" align="center">
+            <input type="submit" align="center">
+        </td>
+    </tr>
+</table>
+</form>
