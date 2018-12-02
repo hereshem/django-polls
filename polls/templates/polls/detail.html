@@ -1,7 +1,11 @@
 
+{% extends "polls/base.html" %}
+
+{% block containers %}
+    <a href="{% url 'polls:list' %}" >List of Questions</a>
 <h1 align="center">{{ question.title }}</h1>
 
-<form method="post" action="/polls/{{ question.id }}/vote/">
+<form method="post" action="{% url 'polls:vote' question.id %}">
 {% csrf_token %}
 <table align="center">
 <tr>
@@ -21,3 +25,11 @@
     </tr>
 </table>
 </form>
+
+{% endblock %}
+
+{% block titles %}
+    {{ question.title }}
+{% endblock %}
+
+askdfnas;ld

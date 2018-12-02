@@ -1,16 +1,15 @@
 
 {% extends "polls/base.html" %}
+<h1>Hello there from pool index</h1>
+{% block titles %}Welcome to Polls App{% endblock %}
 
-{% block title %}Welcome to Polls App{% endblock %}
-
-{%  block container %}
+{%  block containers %}
 
     <h1>Total number of questions {{count}}</h1>
     {% for item in data %}
                             <article>
-                                <h2 class="article-title"><a href="/polls/{{ item.id }}" >{{ item.title }}</a></h2>
+                                <h2 class="article-title"><a href="{% url 'polls:detail' item.id %}" >{{ item.title }}</a></h2>
                             </article>
     {% endfor %}
-
 
 {% endblock %}
