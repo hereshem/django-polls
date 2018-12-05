@@ -1,0 +1,9 @@
+{% extends "polls/base.html" %}
+{% block containers %}
+    <article>
+        <h2>{{ article.title|title }}</h2>
+        <p>{{ article.description|urlize|truncatechars:20 }}</p>
+        {{ article.published|yesno:"Published,Not Published" }}
+    </article>
+
+{% endblock %}

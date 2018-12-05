@@ -1,0 +1,18 @@
+{% extends "polls/base.html" %}
+
+{% block containers %}
+
+    Totals posts {{ data|length|add:"1" }}
+    {% for item in data %}
+        <article>
+            <h2>
+                <a href="{% url 'blogs:detail' item.id %}" > {{ item.title }}</a>
+                {% cycle "hello" "there" "world"%}
+                created : {{ item.created|time }}
+            </h2>
+        </article>
+     {% empty %}
+        <h1> No data to display</h1>
+    {% endfor %}
+
+{% endblock %}
