@@ -1,9 +1,12 @@
 {% extends "polls/base.html" %}
+{% block titles %}{{ article.title|title }}{% endblock %}
 {% block containers %}
+    <a href="{% url "blogs:list" %}">Home</a>
     <article>
         <h2>{{ article.title|title }}</h2>
-        <p>{{ article.description|urlize|truncatechars:20 }}</p>
-        {{ article.published|yesno:"Published,Not Published" }}
+        <p>Author : {{ article.author }} Published : {{ article.created }} Category : {{ article.category.title }}</p>
+        <p>{{ article.views }} view{{ article.views|pluralize }}</p>
+        <p>{{ article.description }}</p>
     </article>
 
 {% endblock %}

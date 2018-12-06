@@ -1,15 +1,13 @@
 {% extends "polls/base.html" %}
 
+{% block titles %}Blogs List{% endblock %}
 {% block containers %}
-
-    Totals posts {{ data|length|add:"1" }}
-    {% for item in data %}
+    Totals posts {{ data|length }}
+    {% for item in data reversed %}
         <article>
-            <h2>
-                <a href="{% url 'blogs:detail' item.id %}" > {{ item.title }}</a>
-                {% cycle "hello" "there" "world"%}
-                created : {{ item.created|time }}
-            </h2>
+            <h3><a href="{% url 'blogs:detail' item.id %}" >{{ item.title|title }}</a></h3>
+            <p>Author: {{ item.author }} Created: {{ item.created|timesince }} Category: {{ item.category.title }}</p>
+            <p>{{ item.description|truncatewords:"10" }}</p>
         </article>
      {% empty %}
         <h1> No data to display</h1>
