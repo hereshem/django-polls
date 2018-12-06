@@ -3,9 +3,13 @@ import datetime
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 import blogs
 from blogs.models import Article, Category
 from blogs.scrapper import scrap
+from blogs.serializer import ArticleSerializer
 
 
 def blog_list(req):
@@ -31,3 +35,9 @@ def blog_new(req):
         article.published = True
         article.save()
     return redirect("blogs:list")
+
+@api_view(['GET', 'POST'])
+def blog_api(req):
+    articles = Article.objects.filter(published=True)
+    serializer = ArticleSerializer(articles, many=True)
+    return Response(serializer.data)

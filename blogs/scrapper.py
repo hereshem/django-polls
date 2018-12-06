@@ -3,7 +3,6 @@ import requests
 
 
 def scrap(url="https://www.onlinekhabar.com/2018/12/724699"):
-
     try:
         res = requests.get(url)
         # print(res.text)
