@@ -14,10 +14,14 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ["title", "created"]
     list_filter = ["title", "created"]
     search_fields = ["title"]
-    fields = ["title", "created"]
+    # fields = ["created", "title"]
+    fieldsets = [
+        (None,               {'fields': ['title']}),
+        ('Date information', {'fields': ['created']}),
+    ]
     inlines = [ChoiceInline]
 
 admin.site.register(Question, QuestionAdmin)
 
 
-# admin.site.register(Choice)
+admin.site.register(Choice)

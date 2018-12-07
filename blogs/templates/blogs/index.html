@@ -1,14 +1,23 @@
-{% extends "polls/base.html" %}
+{% extends "blogs/base.html" %}
 
-{% block titles %}Blogs List{% endblock %}
-{% block containers %}
+{% block title %}Blogs List{% endblock %}
+{% block content %}
     Totals posts {{ data|length }}
     {% for item in data reversed %}
-        <article>
-            <h3><a href="{% url 'blogs:detail' item.id %}" >{{ item.title|title }}</a></h3>
-            <p>Author: {{ item.author }} Created: {{ item.created|timesince }} Category: {{ item.category.title }}</p>
-            <p>{{ item.description|truncatewords:"10" }}</p>
-        </article>
+        <div class="card mb-3">
+          <div class="card-header">
+            Featured
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ item.title|title }}</h5>
+            <p class="card-text">{{ item.description|truncatewords:"10" }}</p>
+            <a href="{% url 'blogs:detail' item.id %}" class="btn btn-primary">Read More</a>
+          </div>
+          <div class="card-footer text-muted">
+            {{ item.created|timesince }}
+          </div>
+        </div>
+
      {% empty %}
         <h1> No data to display</h1>
     {% endfor %}

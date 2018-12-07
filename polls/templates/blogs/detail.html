@@ -1,6 +1,6 @@
-{% extends "polls/base.html" %}
-{% block titles %}{{ article.title|title }}{% endblock %}
-{% block containers %}
+{% extends "blogs/base.html" %}
+{% block title %}{{ article.title|title }}{% endblock %}
+{% block content %}
     <a href="{% url "blogs:list" %}">Home</a>
     <article>
         <h2>{{ article.title|title }}</h2>
