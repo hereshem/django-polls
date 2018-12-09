@@ -1,0 +1,32 @@
+{% extends "blogs/base.html" %}
+{% block title %}{{ article.title|title }}{% endblock %}
+{% block content %}
+    <a href="{% url "blogs:list" %}">Home</a>
+    <article>
+        <h2>{{ article.title|title }}</h2>
+        <p>Author : {{ article.author }} Published : {{ article.created }} Category : {{ article.category.title }}</p>
+        <p>{{ article.views }} view{{ article.views|pluralize }}</p>
+        <p>{{ article.description }}</p>
+    </article>
+
+    <hr>
+    <p>{{ article.review_set.all|length}} Comment{{ article.review_set.all|length|pluralize }}</p>
+
+    {% for item in article.review_set.all %}
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.rate }} star{{ item.rate|pluralize }}</h5>
+            <p class="card-text">{{ item.review}}</p>
+          </div>
+          <div class="card-footer text-muted">
+            {{ item.created|timesince }} ago
+          </div>
+        </div>
+    {% endfor %}
+
+    <form action="{% url "blogs:review" article.id %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-outline-success">
+    </form>
+{% endblock %}

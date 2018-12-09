@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 import blogs
+from blogs.forms import ReviewForm
 from blogs.models import Article, Category
 from blogs.scrapper import scrap
 from blogs.serializer import ArticleSerializer
@@ -21,7 +22,19 @@ def blog_list(req):
 
 def blog_details(req, id):
     article = Article.objects.get(id=id)
-    return render(req, "blogs/detail.html", {"article":article})
+    form = ReviewForm()
+    return render(req, "blogs/detail.html", {"article":article, "form":form})
+
+def blog_review(req, id):
+    if req.method == "POST":
+        form = ReviewForm(req.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.created = datetime.datetime.now()
+            review.article = Article.objects.get(id=id)
+            review.user = req.user
+            review.save()
+    return redirect("blogs:detail", id)
 
 def blog_new(req):
     data = scrap(req.GET.get("url"))
