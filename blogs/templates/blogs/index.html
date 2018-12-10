@@ -1,7 +1,13 @@
 {% extends "blogs/base.html" %}
 
+
 {% block title %}Blogs List{% endblock %}
 {% block content %}
+    {% if user.is_authenticated %}
+        Welcome {{ user.username }} <a href="/signout">Logout</a>
+    {% else %}
+        Welcome Guest. <a href="/signin">Login</a>
+    {% endif %}
     Totals posts {{ data|length }}
     {% for item in data reversed %}
         <div class="card mb-3">

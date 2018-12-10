@@ -20,7 +20,6 @@ def signin(req):
         return redirect("blogs:list")
 
     if req.method=="POST":
-        form = SigninForm(req.POST)
         username = req.POST["username"]
         password = req.POST["password"]
         user = authenticate(req, username=username, password=password)
@@ -44,7 +43,6 @@ def signup(req):
 
     if req.method == "POST":
         form = SignupForm(req.POST)
-        print("after post")
         if form.is_valid():
             user = form.save(commit=False)
             user.save()
