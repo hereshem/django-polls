@@ -17,6 +17,7 @@
           <div class="card-body">
             <h5 class="card-title">{{ item.rate }} star{{ item.rate|pluralize }}</h5>
             <p class="card-text">{{ item.review}}</p>
+            <p class="card-text">By : {{ item.user.username}}</p>
           </div>
           <div class="card-footer text-muted">
             {{ item.created|timesince }} ago

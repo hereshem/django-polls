@@ -22,6 +22,6 @@ from polls.views import hello_world
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("polls/", include("polls.urls")),
-    path("blogs/", include("blogs.urls")),
-    path("", hello_world)
+    path("", include("blogs.urls")),
+    # path("", hello_world)
 ]

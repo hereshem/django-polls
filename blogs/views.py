@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth import logout, login, authenticate
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -8,10 +9,51 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 import blogs
-from blogs.forms import ReviewForm
+from blogs.forms import ReviewForm, SignupForm, SigninForm
 from blogs.models import Article, Category
 from blogs.scrapper import scrap
 from blogs.serializer import ArticleSerializer
+
+
+def signin(req):
+    if req.user.is_authenticated:
+        return redirect("blogs:list")
+
+    if req.method=="POST":
+        form = SigninForm(req.POST)
+        username = req.POST["username"]
+        password = req.POST["password"]
+        user = authenticate(req, username=username, password=password)
+        if user != None:
+            login(req, user)
+            redirect("blogs:list")
+
+    else:
+        form = SigninForm()
+    return render(req, "blogs/signin.html", {"form":form})
+
+
+def signout(req):
+    logout(req)
+    return redirect("blogs:signin")
+
+
+def signup(req):
+    if req.user.is_authenticated:
+        return redirect("blogs:list")
+
+    if req.method == "POST":
+        form = SignupForm(req.POST)
+        print("after post")
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            return redirect("blogs:signin")
+        else:
+            print("invalid form")
+    else:
+        form = SignupForm()
+    return render(req, "blogs/signup.html", {"form": form})
 
 
 def blog_list(req):
@@ -27,13 +69,16 @@ def blog_details(req, id):
 
 def blog_review(req, id):
     if req.method == "POST":
-        form = ReviewForm(req.POST)
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.created = datetime.datetime.now()
-            review.article = Article.objects.get(id=id)
-            review.user = req.user
-            review.save()
+        if req.user.is_authenticated:
+            form = ReviewForm(req.POST)
+            if form.is_valid():
+                review = form.save(commit=False)
+                review.created = datetime.datetime.now()
+                review.article = Article.objects.get(id=id)
+                review.user = req.user
+                review.save()
+        else:
+            return redirect("blogs:login")
     return redirect("blogs:detail", id)
 
 def blog_new(req):
