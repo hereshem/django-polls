@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib import messages
 from django.contrib.auth import logout, login, authenticate
 from django.shortcuts import render, redirect
 
@@ -8,7 +9,6 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-import blogs
 from blogs.forms import ReviewForm, SignupForm, SigninForm
 from blogs.models import Article, Category
 from blogs.scrapper import scrap
@@ -17,6 +17,7 @@ from blogs.serializer import ArticleSerializer
 
 def signin(req):
     if req.user.is_authenticated:
+        messages.info(req, "User already logged in")
         return redirect("blogs:list")
 
     if req.method=="POST":
@@ -28,7 +29,10 @@ def signin(req):
         user = authenticate(req, username=username,  password=password)
         if user is not None:
             login(req, user)
+            messages.success(req, "Successfully logged in")
             return redirect("blogs:list")
+        else:
+            messages.error(req, "Invalid Username or Password")
     else:
         form = SigninForm()
     return render(req, "blogs/signin.html", {"form":form})
@@ -36,11 +40,13 @@ def signin(req):
 
 def signout(req):
     logout(req)
+    messages.info(req, "Logged out successfully")
     return redirect("blogs:signin")
 
 
 def signup(req):
     if req.user.is_authenticated:
+        messages.info(req, "User already logged in")
         return redirect("blogs:list")
 
     if req.method == "POST":
@@ -48,9 +54,10 @@ def signup(req):
         if form.is_valid():
             user = form.save(commit=False)
             user.save()
+            messages.success(req, "User created successfully")
             return redirect("blogs:signin")
         else:
-            print("invalid form")
+            messages.info(req, "Invalid form")
     else:
         form = SignupForm()
     return render(req, "blogs/signup.html", {"form": form})
@@ -77,7 +84,9 @@ def blog_review(req, id):
                 review.article = Article.objects.get(id=id)
                 review.user = req.user
                 review.save()
+                messages.success(req, "Review saved successfully")
         else:
+            messages.error(req, "Login required to post reviews")
             return redirect("blogs:login")
     return redirect("blogs:detail", id)
 
@@ -93,7 +102,9 @@ def blog_new(req):
         article.description = data["description"]
         article.published = True
         article.save()
+        messages.success(req, "Post saved")
     return redirect("blogs:list")
+
 
 @api_view(['GET', 'POST'])
 def blog_api(req):
