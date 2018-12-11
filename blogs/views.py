@@ -20,13 +20,15 @@ def signin(req):
         return redirect("blogs:list")
 
     if req.method=="POST":
-        username = req.POST["username"]
-        password = req.POST["password"]
-        user = authenticate(req, username=username, password=password)
-        if user != None:
+        form = SigninForm(req.POST)
+        # username = req.POST["username"]
+        # password = req.POST["password"]
+        username = form["username"].value()
+        password = form["password"].value()
+        user = authenticate(req, username=username,  password=password)
+        if user is not None:
             login(req, user)
-            redirect("blogs:list")
-
+            return redirect("blogs:list")
     else:
         form = SigninForm()
     return render(req, "blogs/signin.html", {"form":form})

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'polls',
     'blogs',
     "rest_framework",
+    "bootstrap4",
 ]
 
 MIDDLEWARE = [

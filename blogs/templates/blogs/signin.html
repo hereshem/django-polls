@@ -1,6 +1,31 @@
-<h1>Login</h1>
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" class="btn btn-success" value="Signup">
-</form>
+
+{#{% extends "blogs/base.html" %}#}
+
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_messages %}
+
+<title>{% block title %}Login to Blog{% endblock %}</title>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-4 offset-4">
+            <div class="card mt-5 text-center">
+                <div class="card-header">
+                    Login to Blog
+                </div>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                    {#    {{ form.as_p }}#}
+                        <input type="submit" class="btn btn-success" value="Sign In">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

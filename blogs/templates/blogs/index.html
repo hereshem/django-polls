@@ -8,7 +8,7 @@
     {% else %}
         Welcome Guest. <a href="/signin">Login</a>
     {% endif %}
-    Totals posts {{ data|length }}
+    <p>Totals posts {{ data|length }}</p>
     {% for item in data reversed %}
         <div class="card mb-3">
           <div class="card-header">
