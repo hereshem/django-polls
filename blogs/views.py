@@ -71,6 +71,8 @@ def blog_list(req):
 
 def blog_details(req, id):
     article = Article.objects.get(id=id)
+    article.views += 1
+    article.save()
     form = ReviewForm()
     return render(req, "blogs/detail.html", {"article":article, "form":form})
 
@@ -87,7 +89,7 @@ def blog_review(req, id):
                 messages.success(req, "Review saved successfully")
         else:
             messages.error(req, "Login required to post reviews")
-            return redirect("blogs:login")
+            return redirect("blogs:signin")
     return redirect("blogs:detail", id)
 
 def blog_new(req):
