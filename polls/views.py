@@ -10,7 +10,9 @@ def hello_world(req):
 
 def question_list(req):
     page = int(req.GET.get("page", "1"))
-    questions = Question.objects.order_by("title")[((page-1)*20)+1:page*20]
+    start = (page-1)*20
+    end = page*20-1
+    questions = Question.objects.all().order_by("title")[start:end]
     data = {"data": questions, "count":len(questions), "a":"apple"}
     return render(req, "polls/index.html", data)
 

@@ -12,26 +12,28 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class ArticleSerializer(serializers.ModelSerializer):
 
+    # Uncomment if category string is required
     # category = serializers.StringRelatedField()
+
+    # Uncomment if Category object is required
     # category = CategorySerializer(read_only=True)
-    # created = serializers.DateTimeField(format="%Y/%m/%d %H:%M:%S")
-    short_description = serializers.SerializerMethodField()
-    # description = serializers.SerializerMethodField()
 
-    def get_short_description(self, model):
-        return model.description[:20]
+    # Uncomment if dateformat required
+    created = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
 
-    def get_description(self,ob):
-        return ob.description[:10]
+
+    # short_description = serializers.SerializerMethodField()
+    # def get_short_description(self, model):
+    #     return model.description[:20]
 
     class Meta:
         model = Article
-        fields = ["id", "title", "description", "views", "published", "category", "created", "short_description"]
+        fields = ["id", "title", "description", "views", "published", "category", "created"]
 
     def create(self, validated_data):
         print(self.data)
         print(validated_data)
-        cat = Category.objects.get(title=self.data["category"])
+        cat = Category.objects.get(id=self.data["category"])
         art = Article.objects.create(**validated_data)
         if cat != None:
             art.category = cat

@@ -97,7 +97,7 @@ def blog_new(req):
     if data:
         cat = Category.objects.get(pk=1)
         article = Article()
-        article.author = "hello"
+        article.author = "New Author"
         article.category = cat
         article.created = datetime.datetime.now()
         article.title = data["title"]

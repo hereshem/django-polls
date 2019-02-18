@@ -18,7 +18,7 @@ class Category(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=250)
-    # description = models.TextField()
+    description = models.TextField()
     author = models.CharField(max_length=250)
     created = models.DateTimeField()
     category = models.ForeignKey(Category,
